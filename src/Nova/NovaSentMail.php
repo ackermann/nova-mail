@@ -30,6 +30,26 @@ class NovaSentMail extends Resource
     public static $title = 'id';
 
     /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Sent Mails');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Sent Mail');
+    }
+
+    /**
      * The columns that should be searched.
      *
      * @var array
@@ -50,15 +70,15 @@ class NovaSentMail extends Resource
     {
         return [
             MorphTo::make('mailable')->hideFromIndex(),
-            BelongsTo::make('Sender', 'sender', User::class),
-            Text::make('Subject'),
-            BelongsTo::make('Template', 'mailTemplate', NovaMailTemplate::class),
-            Textarea::make('Content')
+            BelongsTo::make(__('Sender'), 'sender', User::class),
+            Text::make(__('Subject'), 'subject'),
+            BelongsTo::make(__('Template'), 'mailTemplate', NovaMailTemplate::class),
+            Textarea::make(__('Content'), 'content')
                 ->displayUsing(function ($content) {
                     return trim(strip_tags($content));
                 })
                 ->alwaysShow(),
-            DateTime::make('Sent At', 'created_at')->format('M/d/Y h:mm:ss a'),
+            DateTime::make(__('Sent At'), 'created_at')->format('DD/MM/YYYY HH:mm:ss'),
         ];
     }
 
@@ -108,16 +128,6 @@ class NovaSentMail extends Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    /**
-     * Get the displayable label of the resource.
-     *
-     * @return string
-     */
-    public static function label()
-    {
-        return 'Sent Mail';
     }
 
     /**

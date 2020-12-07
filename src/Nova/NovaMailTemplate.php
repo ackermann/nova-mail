@@ -2,133 +2,135 @@
 
 namespace KirschbaumDevelopment\NovaMail\Nova;
 
-use Laravel\Nova\Resource;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Code;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
+use Illuminate\Support\Str;
 use KirschbaumDevelopment\NovaMail\Events;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
+use Laravel\Nova\Fields\Code;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Resource;
 
-class NovaMailTemplate extends Resource
-{
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = NovaMailTemplateModel::class;
+class NovaMailTemplate extends Resource {
+	/**
+	 * The model the resource corresponds to.
+	 *
+	 * @var string
+	 */
+	public static $model = NovaMailTemplateModel::class;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'name';
+	/**
+	 * The single value that should be used to represent the resource when being displayed.
+	 *
+	 * @var string
+	 */
+	public static $title = 'name';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'name',
-    ];
+	/**
+	 * Get the displayable label of the resource.
+	 *
+	 * @return string
+	 */
+	public static function label() {
+		return __('Mail Templates');
+	}
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return array
-     */
-    public function fields(Request $request)
-    {
-        return [
-            Text::make('Name'),
+	/**
+	 * Get the displayable singular label of the resource.
+	 *
+	 * @return string
+	 */
+	public static function singularLabel() {
+		return __('Mail Template');
+	}
 
-            Text::make('Subject'),
+	/**
+	 * The columns that should be searched.
+	 *
+	 * @var array
+	 */
+	public static $search = [
+		'name',
+	];
 
-            Code::make('Content')
-                ->language('markdown')
-                ->hideFromIndex(),
+	/**
+	 * Get the fields displayed by the resource.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 *
+	 * @return array
+	 */
+	public function fields(Request $request) {
+		return [
 
-            Number::make('Send delay (minutes)', 'send_delay_in_minutes'),
+			Text::make(__('Name'), 'name'),
 
-            Events::make('Events')
-                ->hideWhenCreating()
-                ->help('Targeting a specific column is only available on the "Updated" event.'),
-        ];
-    }
+			Text::make(__('Subject'), 'subject'),
 
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
+			Code::make(__('Content'), 'content')
+				->language('markdown')
+				->hideFromIndex(),
 
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
+			Number::make(__('Send delay (minutes)'), 'send_delay_in_minutes'),
 
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
+			Events::make(__('Events'), 'events')
+				->hideWhenCreating()
+				->help('Targeting a specific column is only available on the "Updated" event.'),
+		];
+	}
 
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return array
-     */
-    public function actions(Request $request)
-    {
-        return [];
-    }
+	/**
+	 * Get the cards available for the request.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 *
+	 * @return array
+	 */
+	public function cards(Request $request) {
+		return [];
+	}
 
-    /**
-     * Get the displayable label of the resource.
-     *
-     * @return string
-     */
-    public static function label()
-    {
-        return Str::plural('Mail Template');
-    }
+	/**
+	 * Get the filters available for the resource.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 *
+	 * @return array
+	 */
+	public function filters(Request $request) {
+		return [];
+	}
 
-    /**
-     * Determine if this resource is available for navigation.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return bool
-     */
-    public static function availableForNavigation(Request $request)
-    {
-        return config('nova_mail.show_resources.nova_mail_template');
-    }
+	/**
+	 * Get the lenses available for the resource.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 *
+	 * @return array
+	 */
+	public function lenses(Request $request) {
+		return [];
+	}
+
+	/**
+	 * Get the actions available for the resource.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 *
+	 * @return array
+	 */
+	public function actions(Request $request) {
+		return [];
+	}
+
+	/**
+	 * Determine if this resource is available for navigation.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 *
+	 * @return bool
+	 */
+	public static function availableForNavigation(Request $request) {
+		return config('nova_mail.show_resources.nova_mail_template');
+	}
 }
